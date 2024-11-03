@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wolves' Den - Premarket Checker</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --cream-bg: #faf7f2;
+            --primary-color: #2a2a2a;
+            --accent-color: #ff4444;
+            --wolf-red: #ff3333;
+            --text-color: #333;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--cream-bg);
+            min-height: 100vh;
+            color: var(--text-color);
+        }
+
+        .navbar {
+            background: rgba(42, 42, 42, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .nav-brand img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            opacity: 0.9;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-brand img:hover {
+            opacity: 1;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 1rem;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background-color: var(--wolf-red);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .language-switch {
+            color: white;
+            background: none;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 0.3rem 0.8rem;
+            cursor: pointer;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .language-switch:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: var(--wolf-red);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 6rem auto 2rem;
+            padding: 0 2rem;
+            position: relative;
+        }
+
+        .background-logo {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0.05;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            z-index: -1;
+            pointer-events: none;
+            filter: blur(1px);
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .input-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid rgba(0,0,0,0.1);
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(255,255,255,0.9);
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--wolf-red);
+            box-shadow: 0 0 0 3px rgba(255,51,51,0.1);
+        }
+
+        button {
+            background: linear-gradient(135deg, #ff3333, #ff5555);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255,51,51,0.3);
+        }
+
+        .logo-coin {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 2rem;
+            display: block;
+            border-radius: 50%;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .logo-coin:hover {
+            opacity: 1;
+        }
+
+        .price-info {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .price-item {
+            padding: 1.5rem;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.8);
+            border: 1px solid rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .price-item:hover {
+            background: white;
+            transform: scale(1.02);
+        }
+
+        .credits {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255,255,255,0.9);
+            border-radius: 20px;
+            margin-top: 3rem;
+        }
+
+        .credits h3 {
+            color: var(--wolf-red);
+            margin-bottom: 1rem;
+        }
+
+        .credits p {
+            margin: 0.5rem 0;
+            color: #666;
+        }
+
+        .watermark {
+            font-family: 'Palatino', serif;
+            font-size: 2rem;
+            text-align: center;
+            margin: 2rem 0;
+            background: linear-gradient(135deg, #ff3333, #ff5555);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .input-group {
+                grid-template-columns: 1fr;
+            }
+            .container {
+                padding: 0 1rem;
+                margin-top: 5rem;
+            }
+            .background-logo {
+                width: 60px;
+                height: 60px;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <img src="images/wolves.png" alt="Wolves' Den Logo" class="nav-logo">
+            <div class="nav-links">
+                <a href="#home" data-lang-en="Home" data-lang-id="Beranda">Home</a>
+                <a href="#major" data-lang-en="Major" data-lang-id="Major">Major</a>
+            </div>
+        </div>
+        <button class="language-switch" onclick="toggleLanguage()">
+            <i class="fas fa-globe"></i>
+        </button>
+    </nav>
+
+    <div class="container">
+        <img src="images/wolves.png" alt="Wolves' Den Logo" class="background-logo">
+        
+        <div id="home" class="fade-in" style="display: none;">
+            <div class="card">
+                <img src="images/wolves.png" alt="Wolves' Den Logo" class="logo-coin">
+                <h1 class="watermark">Welcome to Wolves' Den</h1>
+                <p style="text-align: center;">Your trusted platform for premarket analysis</p>
+            </div>
+        </div>
+
+        <div id="major" class="fade-in">
+            <div class="card">
+                <img src="images/major.png" alt="Major Logo" class="logo-coin">
+                <h1 class="watermark" data-lang-en="Premarket Price Checker" data-lang-id="Kalkulator Harga Premarket">Premarket Price Checker</h1>
+                
+                <div class="input-group">
+                    <div class="input-wrapper">
+                        <input type="number" id="majorAmount" data-lang-en="Enter average points per account" data-lang-id="Masukkan rata-rata poin per akun" placeholder="Average points per account">
+                    </div>
+                    <div class="input-wrapper">
+                        <input type="number" id="accountCount" data-lang-en="Enter number of accounts (optional)" data-lang-id="Masukkan jumlah akun (opsional)" placeholder="Number of accounts (optional)">
+                    </div>
+                </div>
+
+                <button onclick="calculateTotalPrice()" data-lang-en="Calculate" data-lang-id="Hitung">
+                    <i class="fas fa-calculator"></i> Calculate
+                </button>
+
+                <div class="price-info">
+                    <div class="price-item">
+                        <h3>Total Major</h3>
+                        <p id="total-major">0</p>
+                    </div>
+                    <div class="price-item">
+                        <h3>Premarket Price</h3>
+                        <p id="premarket-price">$0.0016</p>
+                    </div>
+                    <div class="price-item">
+                        <h3>Price 1:10</h3>
+                        <p id="total-price-10">$0.00</p>
+                    </div>
+                    <div class="price-item">
+                        <h3>Price 1:50</h3>
+                        <p id="total-price-50">$0.00</p>
+                    </div>
+                    <div class="price-item">
+                        <h3>Price 1:100</h3>
+                        <p id="total-price-100">$0.00</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="credits card">
+                <h3>Special Thanks</h3>
+                <p>Inspired by Tomket Lovers' innovative platform design</p>
+                <p>Premarket price prediction and CD ratios (1:10, 1:50, 1:100) by Om Open</p>
+                <div class="watermark">Wolves' Den</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const fixedPremarketPrice = 0.0016;
+        let currentLang = 'en';
+
+        function calculateTotalPrice() {
+            const majorPerAccount = parseFloat(document.getElementById('majorAmount').value) || 0;
+            const accountCount = parseFloat(document.getElementById('accountCount').value) || 1;
+            const totalMajor = majorPerAccount * accountCount;
+
+            const totalPrice1 = totalMajor * fixedPremarketPrice;
+            const totalPrice10 = totalPrice1 / 10;
+            const totalPrice50 = totalPrice1 / 50;
+            const totalPrice100 = totalPrice1 / 100;
+
+            animateNumber('total-major', totalMajor);
+            animateNumber('total-price-10', totalPrice10, true);
+            animateNumber('total-price-50', totalPrice50, true);
+            animateNumber('total-price-100', totalPrice100, true);
+        }
+
+        function animateNumber(elementId, finalNumber, isCurrency = false) {
+            const element = document.getElementById(elementId);
+            const duration = 1000;
+            const steps = 60;
+            const stepDuration = duration / steps;
+            
+            const startNumber = parseFloat(element.innerText.replace(/[^0-9.-]+/g, "")) || 0;
+            const difference = finalNumber - startNumber;
+            const stepSize = difference / steps;
+
+            let currentStep = 0;
+            
+            const interval = setInterval(() => {
+                currentStep++;
+                const currentNumber = startNumber + (stepSize * currentStep);
+                
+                if (isCurrency) {
+                    element.innerText = `$${currentNumber.toFixed(2)}`;
+                } else {
+                    element.innerText = currentNumber.toLocaleString();
+                }
+
+                if (currentStep >= steps) {
+                    clearInterval(interval);
+                    if (isCurrency) {
+                        element.innerText = `$${finalNumber.toFixed(2)}`;
+                    } else {
+                        element.innerText = finalNumber.toLocaleString();
+                    }
+                }
+            }, stepDuration);
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'id' : 'en';
+            const elements = document.querySelectorAll('[data-lang-en]');
+            
+            elements.forEach(element => {
+                const text = element.getAttribute(`data-lang-${currentLang}`);
+                if (element.tagName === 'INPUT') {
+                    element.placeholder = text;
+                } else {
+                    element.innerText = text;
+                }
+            });
+        }
+
+        function showPage(pageId) {
+            const pages = ['home', 'major'];
+            pages.forEach(page => {
+                const element = document.getElementById(page);
+                if (page === pageId) {
+                    element.style.display = 'block';
+                    element.style.animation = 'none';
+                    element.offsetHeight;
+                    element.style.animation = null;
+                } else {
+                    element.style.display = 'none';
+                }
+            });
+        }
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                showPage(e.target.getAttribute('href').substring(1));
+            });
+        });
+
+        showPage('major');
+    </script>
+</body>
+</html>
