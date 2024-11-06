@@ -249,6 +249,81 @@
             opacity: 0.9;
         }
 
+        /* New styles for Telegram features */
+        .telegram-posts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+            padding: 1rem;
+        }
+
+        .post-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .post-card:hover {
+            transform: translateY(-5px) rotate(0deg) !important;
+            box-shadow: 0 15px 40px rgba(255,51,51,0.15);
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .post-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        .post-info h3 {
+            margin: 0;
+            font-size: 1rem;
+            color: var(--primary-color);
+        }
+
+        .post-time {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .post-content {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: var(--text-color);
+        }
+
+        .telegram-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #0088cc;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .telegram-link:hover {
+            background: #0099dd;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,136,204,0.3);
+        }
+
         @media (max-width: 768px) {
             .input-group {
                 grid-template-columns: 1fr;
@@ -260,6 +335,13 @@
             .background-logo {
                 width: 60px;
                 height: 60px;
+            }
+            .telegram-posts {
+                grid-template-columns: 1fr;
+            }
+            
+            .post-card {
+                margin: 1rem 0;
             }
         }
 
@@ -294,7 +376,52 @@
             <div class="card">
                 <img src="images/wolves.png" alt="Wolves' Den Logo" class="logo-coin">
                 <h1 class="watermark">Welcome to Wolves' Den</h1>
-                <p style="text-align: center;">Your trusted platform for premarket analysis</p>
+                <p style="text-align: center;" class="mb-4">Your trusted platform for premarket analysis</p>
+                
+                <a href="https://t.me/WolvesBase" target="_blank" class="telegram-link">
+                    <i class="fab fa-telegram"></i> Join Our Telegram Channel
+                </a>
+            </div>
+
+            <div class="telegram-posts">
+                <div class="post-card" style="transform: rotate(-2deg);">
+                    <div class="post-header">
+                        <img src="images/wolves.png" alt="Wolves' Den Logo" class="post-avatar">
+                        <div class="post-info">
+                            <h3>Wolves' Den</h3>
+                            <span class="post-time">Latest Update</span>
+                        </div>
+                    </div>
+                    <div class="post-content">
+                        <p>🐺 Latest market analysis and predictions available now! Check our Telegram channel for more details.</p>
+                    </div>
+                </div>
+
+                <div class="post-card" style="transform: rotate(1deg);">
+                    <div class="post-header">
+                        <img src="images/wolves.png" alt="Wolves' Den Logo" class="post-avatar">
+                        <div class="post-info">
+                            <h3>Wolves' Den</h3>
+                            <span class="post-time">Recent Update</span>
+                        </div>
+                    </div>
+                    <div class="post-content">
+                        <p>📊 Market insights and trading opportunities updated daily. Join our community!</p>
+                    </div>
+                </div>
+
+                <div class="post-card" style="transform: rotate(-1deg);">
+                    <div class="post-header">
+                        <img src="images/wolves.png" alt="Wolves' Den Logo" class="post-avatar">
+                        <div class="post-info">
+                            <h3>Wolves' Den</h3>
+                            <span class="post-time">Today's Highlight</span>
+                        </div>
+                    </div>
+                    <div class="post-content">
+                        <p>💎 Premium analysis and exclusive content available for our members.</p>
+                    </div>
+                </div>
             </div>
         </div>
 
