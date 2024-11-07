@@ -89,15 +89,20 @@
             width: 100%;
         }
 
+        .navbar {
+        padding: 0.8rem 1rem; 
+        }
+
         .language-switch {
-            color: white;
-            background: none;
-            border: 1px solid rgba(255,255,255,0.3);
-            padding: 0.3rem 0.8rem;
-            cursor: pointer;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
+            position: relative;
+            right: 0;
+            margin-left: auto;
+            z-index: 1000;
+            min-width: 44px; 
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .language-switch:hover {
@@ -361,6 +366,9 @@
             transition: all 0.3s;
             border-radius: 50%;
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            touch-action: manipulation; 
+            -webkit-tap-highlight-color: transparent; 
+            will-change: transform, opacity;
         }
 
         .falling-item:hover {
@@ -403,6 +411,19 @@
         }
 
         @media (max-width: 768px) {
+            .navbar {
+                padding: 0.5rem;
+            }
+            .nav-brand {
+                gap: 0.5rem;
+            }
+            .nav-links {
+                gap: 1rem;
+            }
+            .nav-links a {
+                padding: 0.5rem;
+                font-size: 0.9rem;
+            }
             .input-group {
                 grid-template-columns: 1fr;
             }
@@ -430,10 +451,18 @@
                 width: 40px;
                 height: 40px;
             }
+            .language-switch {
+                padding: 0.5rem;
+                position: relative;
+                right: 0;
+                margin-left: 0.5rem;
+            }
 
-            .loading-screen {
-                background-size: auto 100%;
-                background-position: center top;
+            .falling-item {
+                width: 40px;
+                height: 40px;
+                min-width: 40px;
+                min-height: 40px; 
             }
         }
 
@@ -713,22 +742,28 @@
             const images = ['images/wolves.png', 'images/blum.png'];
             item.src = images[Math.floor(Math.random() * images.length)];
 
-            const margin = 60; 
+            const margin = 60;
             const left = margin + Math.random() * (window.innerWidth - 2 * margin);
             item.style.left = `${left}px`;
-            
+    
             const duration = 3 + Math.random() * 3;
             item.style.animationDuration = `${duration}s`;
-        
+
             const rotation = Math.random() * 360;
             item.style.transform = `rotate(${rotation}deg)`;
-            
-            item.addEventListener('click', () => {
+    
+            const removeItem = (e) => {
+                e.preventDefault(); 
+                e.stopPropagation(); 
                 item.style.opacity = '0';
                 item.style.transform = 'scale(0)';
                 setTimeout(() => item.remove(), 300);
-            });
-            
+            };
+
+            item.addEventListener('click', removeItem);
+            item.addEventListener('touchstart', removeItem, { passive: false });
+            item.addEventListener('touchend', (e) => e.preventDefault(), { passive: false });
+    
             return item;
         }
 
