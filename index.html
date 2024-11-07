@@ -249,7 +249,6 @@
             opacity: 0.9;
         }
 
-        /* New styles for Telegram features */
         .telegram-posts {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -324,6 +323,42 @@
             box-shadow: 0 5px 15px rgba(0,136,204,0.3);
         }
 
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://blog.pintu.co.id/wp-content/uploads/2024/09/prediksi-harga-blum.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 1;
+            transition: opacity 5s ease-out;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--wolf-red);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         @media (max-width: 768px) {
             .input-group {
                 grid-template-columns: 1fr;
@@ -343,6 +378,11 @@
             .post-card {
                 margin: 1rem 0;
             }
+
+            .loading-screen {
+                background-size: auto 100%;
+                background-position: center top;
+            }
         }
 
         @keyframes fadeIn {
@@ -356,12 +396,17 @@
     </style>
 </head>
 <body>
+    <div class="loading-screen">
+        <div class="loading-spinner"></div>
+    </div>
+
     <nav class="navbar">
         <div class="nav-brand">
             <img src="images/wolves.png" alt="Wolves' Den Logo" class="nav-logo">
             <div class="nav-links">
                 <a href="#home" data-lang-en="Home" data-lang-id="Beranda">Home</a>
                 <a href="#major" data-lang-en="Major" data-lang-id="Major">Major</a>
+                <a href="#blum" data-lang-en="Blum" data-lang-id="Blum">Blum</a>
             </div>
         </div>
         <button class="language-switch" onclick="toggleLanguage()">
@@ -373,199 +418,154 @@
         <img src="images/wolves.png" alt="Wolves' Den Logo" class="background-logo">
         
         <div id="home" class="fade-in" style="display: none;">
-            <div class="card">
-                <img src="images/wolves.png" alt="Wolves' Den Logo" class="logo-coin">
-                <h1 class="watermark">Welcome to Wolves' Den</h1>
-                <p style="text-align: center;" class="mb-4">Your trusted platform for premarket analysis</p>
-                
-                <a href="https://t.me/WolvesBase" target="_blank" class="telegram-link">
-                    <i class="fab fa-telegram"></i> Join Our Telegram Channel
-                </a>
+    <div class="card">
+        <img src="images/wolves.png" alt="Wolves' Den Logo" class="logo-coin">
+        <h1 class="watermark">Welcome to Wolves' Den</h1>
+        <p style="text-align: center;" class="mb-4">Your trusted platform for premarket analysis</p>
+        
+        <a href="https://t.me/WolvesBase" target="_blank" class="telegram-link">
+            <i class="fab fa-telegram"></i> Join Our Telegram Channel
+        </a>
+    </div>
+
+    <div class="telegram-posts">
+        <div class="post-card" style="transform: rotate(-2deg);">
+            <div class="post-header">
+                <img src="images/wolphreen.png" alt="Wolves' Den Logo" class="post-avatar">
+                <div class="post-info">
+                    <h3>𝑾𝒐𝒍𝒑𝒉𝒓𝒆𝒆𝒏 | Tomket | Wolf</h3>
+                    <span class="post-time">Latest Update</span>
+                </div>
             </div>
-
-            <div class="telegram-posts">
-                <div class="post-card" style="transform: rotate(-2deg);">
-                    <div class="post-header">
-                        <img src="images/wolphreen.png" alt="Wolves' Den Logo" class="post-avatar">
-                        <div class="post-info">
-                            <h3>𝑾𝒐𝒍𝒑𝒉𝒓𝒆𝒆𝒏 | Tomket | Wolf</h3>
-                            <span class="post-time">Latest Update</span>
-                        </div>
-                    </div>
-                    <div class="post-content">
-                        <p>🐺 Latest market analysis and predictions available now! Check our Telegram channel for more details.</p>
-                    </div>
-                </div>
-
-                <div class="post-card" style="transform: rotate(1deg);">
-                    <div class="post-header">
-                        <img src="images/kinji.jpg" alt="Wolves' Den Logo" class="post-avatar">
-                        <div class="post-info">
-                            <h3>Kinji</h3>
-                            <span class="post-time">Recent Update</span>
-                        </div>
-                    </div>
-                    <div class="post-content">
-                        <p>📊 Market insights and trading opportunities updated daily. Join our community!</p>
-                    </div>
-                </div>
-
-                <div class="post-card" style="transform: rotate(-1deg);">
-                    <div class="post-header">
-                        <img src="images/playa.png" alt="Wolves' Den Logo" class="post-avatar">
-                        <div class="post-info">
-                            <h3>Playa</h3>
-                            <span class="post-time">Today's Highlight</span>
-                        </div>
-                    </div>
-                    <div class="post-content">
-                        <p>🍌 dia siapa kocak.</p>
-                    </div>
-                </div>
+            <div class="post-content">
+                <p>🐺 Latest market analysis and predictions available now! Check our Telegram channel for more details.</p>
             </div>
         </div>
 
-        <div id="major" class="fade-in">
-            <div class="card">
-                <img src="images/major.png" alt="Major Logo" class="logo-coin">
-                <h1 class="watermark" data-lang-en="Premarket Price Checker" data-lang-id="Kalkulator Harga Premarket">Premarket Price Checker</h1>
-                
-                <div class="input-group">
-                    <div class="input-wrapper">
-                        <input type="number" id="majorAmount" data-lang-en="Enter average points per account" data-lang-id="Masukkan rata-rata poin per akun" placeholder="Average points per account">
-                    </div>
-                    <div class="input-wrapper">
-                        <input type="number" id="accountCount" data-lang-en="Enter number of accounts (optional)" data-lang-id="Masukkan jumlah akun (opsional)" placeholder="Number of accounts (optional)">
-                    </div>
-                </div>
-
-                <button onclick="calculateTotalPrice()" data-lang-en="Calculate" data-lang-id="Hitung">
-                    <i class="fas fa-calculator"></i> Calculate
-                </button>
-
-                <div class="price-info">
-                    <div class="price-item">
-                        <h3>Total Major</h3>
-                        <p id="total-major">0</p>
-                    </div>
-                    <div class="price-item">
-                        <h3>Premarket Price</h3>
-                        <p id="premarket-price">$0.0025</p>
-                    </div>
-                    <div class="price-item">
-                        <h3>Price 1:10</h3>
-                        <p id="total-price-10">$0.00</p>
-                    </div>
-                    <div class="price-item">
-                        <h3>Price 1:50</h3>
-                        <p id="total-price-50">$0.00</p>
-                    </div>
-                    <div class="price-item">
-                        <h3>Price 1:100</h3>
-                        <p id="total-price-100">$0.00</p>
-                    </div>
+        <div class="post-card" style="transform: rotate(1deg);">
+            <div class="post-header">
+                <img src="images/kinji.jpg" alt="Wolves' Den Logo" class="post-avatar">
+                <div class="post-info">
+                    <h3>Kinji</h3>
+                    <span class="post-time">Recent Update</span>
                 </div>
             </div>
+            <div class="post-content">
+                <p>📊 Market insights and trading opportunities updated daily. Join our community!</p>
+            </div>
+        </div>
 
-            <div class="credits card">
-                <h3>Special Thanks</h3>
-                <p>Inspired by Tomket Lovers' innovative premarket predict platform</p>
-                <p>Premarket price prediction and CV ratios (1:10, 1:50, 1:100) by Om Open</p>
-                <div class="watermark">Wolves' Den</div>
+        <div class="post-card" style="transform: rotate(-1deg);">
+            <div class="post-header">
+                <img src="images/playa.png" alt="Wolves' Den Logo" class="post-avatar">
+                <div class="post-info">
+                    <h3>Playa</h3>
+                    <span class="post-time">Today's Highlight</span>
+                </div>
+            </div>
+            <div class="post-content">
+                <p>🍌 dia siapa kocak.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="major" class="fade-in">
+    <div class="card">
+        <img src="images/major.png" alt="Major Logo" class="logo-coin">
+        <h1 class="watermark" data-lang-en="Premarket Price Checker" data-lang-id="Kalkulator Harga Premarket">Premarket Price Checker</h1>
+        
+        <div class="input-group">
+            <div class="input-wrapper">
+                <input type="number" id="majorAmount" data-lang-en="Enter average points per account" data-lang-id="Masukkan rata-rata poin per akun" placeholder="Average points per account">
+            </div>
+            <div class="input-wrapper">
+                <input type="number" id="accountCount" data-lang-en="Enter number of accounts (optional)" data-lang-id="Masukkan jumlah akun (opsional)" placeholder="Number of accounts (optional)">
+            </div>
+        </div>
+
+        <button onclick="calculateTotalPrice()" data-lang-en="Calculate" data-lang-id="Hitung">
+            <i class="fas fa-calculator"></i> Calculate
+        </button>
+
+        <div class="price-info">
+            <div class="price-item">
+                <h3>Total Major</h3>
+                <p id="total-major">0</p>
+            </div>
+            <div class="price-item">
+                <h3>Premarket Price</h3>
+                <p id="premarket-price">$0.0025</p>
+            </div>
+            <div class="price-item">
+                <h3>Price 1:10</h3>
+                <p id="total-price-10">$0.00</p>
+            </div>
+            <div class="price-item">
+                <h3>Price 1:50</h3>
+                <p id="total-price-50">$0.00</p>
+            </div>
+            <div class="price-item">
+                <h3>Price 1:100</h3>
+                <p id="total-price-100">$0.00</p>
             </div>
         </div>
     </div>
 
-    <script>
-        const fixedPremarketPrice = 0.0025;
-        let currentLang = 'en';
+    <div class="credits card">
+        <h3>Special Thanks</h3>
+        <p>Inspired by Tomket Lovers' innovative premarket predict platform</p>
+        <p>Premarket price prediction and CV ratios (1:10, 1:50, 1:100) by Om Open</p>
+        <div class="watermark">Wolves' Den</div>
+    </div>
+</div>
 
-        function calculateTotalPrice() {
-            const majorPerAccount = parseFloat(document.getElementById('majorAmount').value) || 0;
-            const accountCount = parseFloat(document.getElementById('accountCount').value) || 1;
-            const totalMajor = majorPerAccount * accountCount;
+<div id="blum" class="fade-in" style="display: none;">
+    <div class="card">
+        <img src="images/blum.png" alt="Blum Logo" class="logo-coin">
+        <h1 class="watermark" data-lang-en="Blum Premarket Price Checker" data-lang-id="Kalkulator Harga Premarket Blum">Blum Premarket Price Checker</h1>
+        
+        <div class="input-group">
+            <div class="input-wrapper">
+                <input type="number" id="blumAmount" data-lang-en="Enter average points per account" data-lang-id="Masukkan rata-rata poin per akun" placeholder="Average points per account">
+            </div>
+            <div class="input-wrapper">
+                <input type="number" id="blumAccountCount" data-lang-en="Enter number of accounts (optional)" data-lang-id="Masukkan jumlah akun (opsional)" placeholder="Number of accounts (optional)">
+            </div>
+        </div>
 
-            const totalPrice1 = totalMajor * fixedPremarketPrice;
-            const totalPrice10 = totalPrice1 / 10;
-            const totalPrice50 = totalPrice1 / 50;
-            const totalPrice100 = totalPrice1 / 100;
+        <button onclick="calculateBlumPrice()" data-lang-en="Calculate" data-lang-id="Hitung">
+            <i class="fas fa-calculator"></i> Calculate
+        </button>
 
-            animateNumber('total-major', totalMajor);
-            animateNumber('total-price-10', totalPrice10, true);
-            animateNumber('total-price-50', totalPrice50, true);
-            animateNumber('total-price-100', totalPrice100, true);
-        }
+        <div class="price-info">
+            <div class="price-item">
+                <h3>Total Blum</h3>
+                <p id="total-blum">0</p>
+            </div>
+            <div class="price-item">
+                <h3>Premarket Price</h3>
+                <p id="premarket-price-blum">$0.0035</p>
+            </div>
+            <div class="price-item">
+                <h3>Price 1:10</h3>
+                <p id="total-price-10-blum">$0.00</p>
+            </div>
+            <div class="price-item">
+                <h3>Price 1:50</h3>
+                <p id="total-price-50-blum">$0.00</p>
+            </div>
+            <div class="price-item">
+                <h3>Price 1:100</h3>
+                <p id="total-price-100-blum">$0.00</p>
+            </div>
+        </div>
+    </div>
 
-        function animateNumber(elementId, finalNumber, isCurrency = false) {
-            const element = document.getElementById(elementId);
-            const duration = 1000;
-            const steps = 60;
-            const stepDuration = duration / steps;
-            
-            const startNumber = parseFloat(element.innerText.replace(/[^0-9.-]+/g, "")) || 0;
-            const difference = finalNumber - startNumber;
-            const stepSize = difference / steps;
-
-            let currentStep = 0;
-            
-            const interval = setInterval(() => {
-                currentStep++;
-                const currentNumber = startNumber + (stepSize * currentStep);
-                
-                if (isCurrency) {
-                    element.innerText = `$${currentNumber.toFixed(2)}`;
-                } else {
-                    element.innerText = currentNumber.toLocaleString();
-                }
-
-                if (currentStep >= steps) {
-                    clearInterval(interval);
-                    if (isCurrency) {
-                        element.innerText = `$${finalNumber.toFixed(2)}`;
-                    } else {
-                        element.innerText = finalNumber.toLocaleString();
-                    }
-                }
-            }, stepDuration);
-        }
-
-        function toggleLanguage() {
-            currentLang = currentLang === 'en' ? 'id' : 'en';
-            const elements = document.querySelectorAll('[data-lang-en]');
-            
-            elements.forEach(element => {
-                const text = element.getAttribute(`data-lang-${currentLang}`);
-                if (element.tagName === 'INPUT') {
-                    element.placeholder = text;
-                } else {
-                    element.innerText = text;
-                }
-            });
-        }
-
-        function showPage(pageId) {
-            const pages = ['home', 'major'];
-            pages.forEach(page => {
-                const element = document.getElementById(page);
-                if (page === pageId) {
-                    element.style.display = 'block';
-                    element.style.animation = 'none';
-                    element.offsetHeight;
-                    element.style.animation = null;
-                } else {
-                    element.style.display = 'none';
-                }
-            });
-        }
-
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                showPage(e.target.getAttribute('href').substring(1));
-            });
-        });
-
-        showPage('major');
-    </script>
-</body>
-</html>
+    <div class="credits card">
+        <h3>Special Thanks</h3>
+        <p>Inspired by Tomket Lovers' innovative premarket predict platform</p>
+        <p>Premarket price prediction and CV ratios (1:10, 1:50, 1:100) by Om Open</p>
+        <div class="watermark">Wolves' Den</div>
+    </div>
+</div>
