@@ -329,12 +329,22 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.9);
+            background-image: url('https://blog.pintu.co.id/wp-content/uploads/2024/09/prediksi-harga-blum.jpg');
+            background-size: cover;
+            background-position: center;
             display: none;
-            justify-content: center;
-            align-items: center;
             z-index: 9999;
             overflow: hidden;
+        }
+
+        .loading-screen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
         }
 
         .loading-screen.visible {
@@ -343,16 +353,34 @@
 
         .falling-item {
             position: absolute;
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             cursor: pointer;
             animation: fall linear forwards;
-            opacity: 0.8;
-            transition: opacity 0.3s;
+            opacity: 0.9;
+            transition: all 0.3s;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
         }
 
         .falling-item:hover {
             opacity: 1;
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        .loading-spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--wolf-red);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 2s linear infinite;
+            z-index: 10000;
         }
 
         @keyframes fall {
@@ -369,34 +397,9 @@
             }
         }
 
-        @media (max-width: 768px) {
-            .falling-item {
-                width: 30px;
-                height: 30px;
-            }
-        }
-
-        .loading-screen.fade-out {
-            opacity: 0;
-        }
-
-        .loading-screen.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .loading-spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid var(--wolf-red);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 2s linear infinite;
-        }
-
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
         }
 
         @media (max-width: 768px) {
@@ -417,6 +420,15 @@
             
             .post-card {
                 margin: 1rem 0;
+            }
+
+            .loading-screen {
+                background-size: auto 100%;
+                background-position: center top;
+            }
+            .falling-item {
+                width: 40px;
+                height: 40px;
             }
 
             .loading-screen {
@@ -697,18 +709,23 @@
     function createFallingItem() {
             const item = document.createElement('img');
             item.className = 'falling-item';
-            
+
             const images = ['images/wolves.png', 'images/clover.png'];
             item.src = images[Math.floor(Math.random() * images.length)];
-            
-            const left = Math.random() * (window.innerWidth - 40);
+
+            const margin = 60; 
+            const left = margin + Math.random() * (window.innerWidth - 2 * margin);
             item.style.left = `${left}px`;
             
             const duration = 3 + Math.random() * 3;
             item.style.animationDuration = `${duration}s`;
+        
+            const rotation = Math.random() * 360;
+            item.style.transform = `rotate(${rotation}deg)`;
             
             item.addEventListener('click', () => {
                 item.style.opacity = '0';
+                item.style.transform = 'scale(0)';
                 setTimeout(() => item.remove(), 300);
             });
             
@@ -717,9 +734,10 @@
 
         function showLoadingScreen() {
             const loadingScreen = document.querySelector('.loading-screen');
+            loadingScreen.innerHTML = '<div class="loading-spinner"></div>';
             loadingScreen.classList.add('visible');
-            
-            const totalItems = 15;
+
+            const totalItems = 20;
             let itemsCreated = 0;
             
             const createInterval = setInterval(() => {
@@ -727,7 +745,9 @@
                     clearInterval(createInterval);
                     setTimeout(() => {
                         loadingScreen.classList.remove('visible');
-                        loadingScreen.innerHTML = ''; // Clear all items
+                        setTimeout(() => {
+                            loadingScreen.innerHTML = '<div class="loading-spinner"></div>'; 
+                        }, 500);
                     }, 5000);
                     return;
                 }
@@ -739,7 +759,7 @@
                 item.addEventListener('animationend', () => {
                     item.remove();
                 });
-            }, 300);
+            }, 250); 
         }
 
         function showPage(pageId) {
