@@ -569,3 +569,123 @@
         <div class="watermark">Wolves' Den</div>
     </div>
 </div>
+</div>
+<script>
+    const fixedPremarketPrice = 0.0025;
+    const fixedPremarketPriceBlum = 0.0035;
+    let currentLang = 'en';
+
+    function calculateTotalPrice() {
+        const majorPerAccount = parseFloat(document.getElementById('majorAmount').value) || 0;
+        const accountCount = parseFloat(document.getElementById('accountCount').value) || 1;
+        const totalMajor = majorPerAccount * accountCount;
+
+        const totalPrice1 = totalMajor * fixedPremarketPrice;
+        const totalPrice10 = totalPrice1 / 10;
+        const totalPrice50 = totalPrice1 / 50;
+        const totalPrice100 = totalPrice1 / 100;
+
+        animateNumber('total-major', totalMajor);
+        animateNumber('total-price-10', totalPrice10, true);
+        animateNumber('total-price-50', totalPrice50, true);
+        animateNumber('total-price-100', totalPrice100, true);
+    }
+
+    function calculateBlumPrice() {
+        const blumPerAccount = parseFloat(document.getElementById('blumAmount').value) || 0;
+        const blumAccountCount = parseFloat(document.getElementById('blumAccountCount').value) || 1;
+        const totalBlum = blumPerAccount * blumAccountCount;
+
+        const totalPrice1 = totalBlum * fixedPremarketPriceBlum;
+        const totalPrice10 = totalPrice1 / 10;
+        const totalPrice50 = totalPrice1 / 50;
+        const totalPrice100 = totalPrice1 / 100;
+
+        animateNumber('total-blum', totalBlum);
+        animateNumber('total-price-10-blum', totalPrice10, true);
+        animateNumber('total-price-50-blum', totalPrice50, true);
+        animateNumber('total-price-100-blum', totalPrice100, true);
+    }
+
+    function animateNumber(elementId, finalNumber, isCurrency = false) {
+        const element = document.getElementById(elementId);
+        const duration = 1000;
+        const steps = 60;
+        const stepDuration = duration / steps;
+        
+        const startNumber = parseFloat(element.innerText.replace(/[^0-9.-]+/g, "")) || 0;
+        const difference = finalNumber - startNumber;
+        const stepSize = difference / steps;
+
+        let currentStep = 0;
+        
+        const interval = setInterval(() => {
+            currentStep++;
+            const currentNumber = startNumber + (stepSize * currentStep);
+            
+            if (isCurrency) {
+                element.innerText = `$${currentNumber.toFixed(2)}`;
+            } else {
+                element.innerText = currentNumber.toLocaleString();
+            }
+
+            if (currentStep >= steps) {
+                clearInterval(interval);
+                if (isCurrency) {
+                    element.innerText = `$${finalNumber.toFixed(2)}`;
+                } else {
+                    element.innerText = finalNumber.toLocaleString();
+                }
+            }
+        }, stepDuration);
+    }
+
+    function toggleLanguage() {
+        currentLang = currentLang === 'en' ? 'id' : 'en';
+        const elements = document.querySelectorAll('[data-lang-en]');
+        
+        elements.forEach(element => {
+            const text = element.getAttribute(`data-lang-${currentLang}`);
+            if (element.tagName === 'INPUT') {
+                element.placeholder = text;
+            } else {
+                element.innerText = text;
+            }
+        });
+    }
+
+    function showPage(pageId) {
+        const pages = ['home', 'major', 'blum'];
+        pages.forEach(page => {
+            const element = document.getElementById(page);
+            if (page === pageId) {
+                element.style.display = 'block';
+                element.style.animation = 'none';
+                element.offsetHeight;
+                element.style.animation = null;
+                
+                if (page === 'blum') {
+                    // Show loading screen for 5 seconds
+                    const loadingScreen = document.querySelector('.loading-screen');
+                    loadingScreen.classList.remove('hidden');
+                    setTimeout(() => {
+                        loadingScreen.classList.add('hidden');
+                    }, 5000);
+                }
+            } else {
+                element.style.display = 'none';
+            }
+        });
+    }
+
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage(e.target.getAttribute('href').substring(1));
+        });
+    });
+
+    showPage('major');
+</script>
+</body>
+</html>
