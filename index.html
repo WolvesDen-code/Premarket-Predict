@@ -329,19 +329,51 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('https://blog.pintu.co.id/wp-content/uploads/2024/09/prediksi-harga-blum.jpg');
-            background-size: cover;
-            background-position: center;
-            display: none; /* Changed from flex to none */
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
             justify-content: center;
             align-items: center;
             z-index: 9999;
-            opacity: 1;
-            transition: opacity 0.5s ease-out;
+            overflow: hidden;
         }
 
         .loading-screen.visible {
-            display: flex; /* Added new class for showing loading screen */
+            display: block;
+        }
+
+        .falling-item {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            animation: fall linear forwards;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .falling-item:hover {
+            opacity: 1;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-100%) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .falling-item {
+                width: 30px;
+                height: 30px;
+            }
         }
 
         .loading-screen.fade-out {
@@ -662,17 +694,52 @@
         });
     }
 
-    function showLoadingScreen() {
+    function createFallingItem() {
+            const item = document.createElement('img');
+            item.className = 'falling-item';
+            
+            const images = ['images/wolves.png', 'images/clover.png'];
+            item.src = images[Math.floor(Math.random() * images.length)];
+            
+            const left = Math.random() * (window.innerWidth - 40);
+            item.style.left = `${left}px`;
+            
+            const duration = 3 + Math.random() * 3;
+            item.style.animationDuration = `${duration}s`;
+            
+            item.addEventListener('click', () => {
+                item.style.opacity = '0';
+                setTimeout(() => item.remove(), 300);
+            });
+            
+            return item;
+        }
+
+        function showLoadingScreen() {
             const loadingScreen = document.querySelector('.loading-screen');
             loadingScreen.classList.add('visible');
             
-            setTimeout(() => {
-                loadingScreen.classList.add('fade-out');
-                setTimeout(() => {
-                    loadingScreen.classList.remove('visible');
-                    loadingScreen.classList.remove('fade-out');
-                }, 500);
-            }, 5000);
+            const totalItems = 15;
+            let itemsCreated = 0;
+            
+            const createInterval = setInterval(() => {
+                if (itemsCreated >= totalItems) {
+                    clearInterval(createInterval);
+                    setTimeout(() => {
+                        loadingScreen.classList.remove('visible');
+                        loadingScreen.innerHTML = ''; // Clear all items
+                    }, 5000);
+                    return;
+                }
+                
+                const item = createFallingItem();
+                loadingScreen.appendChild(item);
+                itemsCreated++;
+                
+                item.addEventListener('animationend', () => {
+                    item.remove();
+                });
+            }, 300);
         }
 
         function showPage(pageId) {
@@ -699,7 +766,6 @@
                 }
             });
 
-            // Update active nav link
             document.querySelectorAll('.nav-links a').forEach(link => {
                 if (link.getAttribute('href') === `#${pageId}`) {
                     link.classList.add('active');
@@ -717,12 +783,10 @@
             });
         });
 
-        // Show home page by default
         window.addEventListener('load', () => {
             showPage('home');
         });
 
-        // Handle direct navigation via URL hash
         window.addEventListener('hashchange', () => {
             const pageId = window.location.hash.substring(1) || 'home';
             showPage(pageId);
