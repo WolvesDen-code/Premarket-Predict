@@ -332,12 +332,20 @@
             background-image: url('https://blog.pintu.co.id/wp-content/uploads/2024/09/prediksi-harga-blum.jpg');
             background-size: cover;
             background-position: center;
-            display: flex;
+            display: none; /* Changed from flex to none */
             justify-content: center;
             align-items: center;
             z-index: 9999;
             opacity: 1;
-            transition: opacity 5s ease-out;
+            transition: opacity 0.5s ease-out;
+        }
+
+        .loading-screen.visible {
+            display: flex; /* Added new class for showing loading screen */
+        }
+
+        .loading-screen.fade-out {
+            opacity: 0;
         }
 
         .loading-screen.hidden {
@@ -654,38 +662,71 @@
         });
     }
 
-    function showPage(pageId) {
-        const pages = ['home', 'major', 'blum'];
-        pages.forEach(page => {
-            const element = document.getElementById(page);
-            if (page === pageId) {
-                element.style.display = 'block';
-                element.style.animation = 'none';
-                element.offsetHeight;
-                element.style.animation = null;
-                
-                if (page === 'blum') {
-                    // Show loading screen for 5 seconds
-                    const loadingScreen = document.querySelector('.loading-screen');
-                    loadingScreen.classList.remove('hidden');
-                    setTimeout(() => {
-                        loadingScreen.classList.add('hidden');
-                    }, 5000);
+    function showLoadingScreen() {
+            const loadingScreen = document.querySelector('.loading-screen');
+            loadingScreen.classList.add('visible');
+            
+            setTimeout(() => {
+                loadingScreen.classList.add('fade-out');
+                setTimeout(() => {
+                    loadingScreen.classList.remove('visible');
+                    loadingScreen.classList.remove('fade-out');
+                }, 500);
+            }, 5000);
+        }
+
+        function showPage(pageId) {
+            const pages = ['home', 'major', 'blum'];
+            pages.forEach(page => {
+                const element = document.getElementById(page);
+                if (page === pageId) {
+                    if (page === 'blum') {
+                        showLoadingScreen();
+                        setTimeout(() => {
+                            element.style.display = 'block';
+                            element.style.animation = 'none';
+                            element.offsetHeight;
+                            element.style.animation = null;
+                        }, 5000);
+                    } else {
+                        element.style.display = 'block';
+                        element.style.animation = 'none';
+                        element.offsetHeight;
+                        element.style.animation = null;
+                    }
+                } else {
+                    element.style.display = 'none';
                 }
-            } else {
-                element.style.display = 'none';
-            }
-        });
-    }
+            });
 
-    document.querySelectorAll('.nav-links a').forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            showPage(e.target.getAttribute('href').substring(1));
-        });
-    });
+            // Update active nav link
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                if (link.getAttribute('href') === `#${pageId}`) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        }
 
-    showPage('major');
-</script>
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const pageId = e.target.getAttribute('href').substring(1);
+                showPage(pageId);
+            });
+        });
+
+        // Show home page by default
+        window.addEventListener('load', () => {
+            showPage('home');
+        });
+
+        // Handle direct navigation via URL hash
+        window.addEventListener('hashchange', () => {
+            const pageId = window.location.hash.substring(1) || 'home';
+            showPage(pageId);
+        });
+    </script>
 </body>
 </html>
