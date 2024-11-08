@@ -94,20 +94,29 @@
         }
 
         .language-switch {
-            position: relative;
-            right: 0;
-            margin-left: auto;
-            z-index: 1000;
-            min-width: 44px; 
-            min-height: 44px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
             display: flex;
             align-items: center;
             justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 0;
+            margin-left: 1rem;
         }
 
         .language-switch:hover {
-            background: rgba(255,255,255,0.1);
-            border-color: var(--wolf-red);
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .language-switch i {
+            font-size: 1.2rem;
         }
 
         .container {
@@ -452,9 +461,6 @@
                 height: 40px;
             }
             .language-switch {
-                padding: 0.5rem;
-                position: relative;
-                right: 0;
                 margin-left: 0.5rem;
             }
 
