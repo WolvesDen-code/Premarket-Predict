@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Wolves' Den - Premarket Checker</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
         :root {
             --cream-bg: #faf7f2;
@@ -361,6 +362,58 @@
             background: rgba(0, 0, 0, 0.7);
         }
 
+        .pixel-text {
+            font-family: 'Press Start 2P', 'Courier New', monospace;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+            letter-spacing: 2px;
+        }
+
+        .pixel-card {
+            background: rgba(255, 255, 255, 0.9);
+            border: 4px solid #333;
+            image-rendering: pixelated;
+            box-shadow: 8px 8px 0 rgba(0,0,0,0.2);
+        }
+
+        .pixel-button {
+            background: #ff3333;
+            border: 4px solid #333;
+            color: white;
+            font-family: 'Press Start 2P', 'Courier New', monospace;
+            text-transform: uppercase;
+            padding: 1rem;
+            font-size: 0.9rem;
+            image-rendering: pixelated;
+            box-shadow: 4px 4px 0 rgba(0,0,0,0.2);
+            transition: all 0.2s ease;
+        }
+
+        .pixel-button:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0 rgba(0,0,0,0.2);
+        }
+
+        .pixel-button:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+        }
+
+        .pixel-input {
+            border: 4px solid #333;
+            font-family: 'Press Start 2P', 'Courier New', monospace;
+            font-size: 0.8rem;
+            padding: 1rem;
+            background: white;
+        }
+
+        .pixel-price-item {
+            border: 4px solid #333;
+            background: white;
+            padding: 1.5rem;
+            box-shadow: 4px 4px 0 rgba(0,0,0,0.2);
+        }
+
         .loading-screen.visible {
             display: block;
         }
@@ -447,6 +500,19 @@
             .telegram-posts {
                 grid-template-columns: 1fr;
             }
+            .pixel-text {
+                font-size: 0.8rem;
+            }
+    
+            .pixel-button {
+                font-size: 0.7rem;
+                padding: 0.8rem;
+            }
+    
+            .pixel-input {
+                font-size: 0.7rem;
+                padding: 0.8rem;
+            }
             
             .post-card {
                 margin: 1rem 0;
@@ -494,6 +560,7 @@
                 <a href="#home" data-lang-en="Home" data-lang-id="Beranda">Home</a>
                 <a href="#major" data-lang-en="Major" data-lang-id="Major">Major</a>
                 <a href="#blum" data-lang-en="Blum" data-lang-id="Blum">Blum</a>
+                <a href="#notpixel" data-lang-en="Not Pixel" data-lang-id="Not Pixel">Not Pixel</a>
             </div>
         </div>
         <button class="language-switch" onclick="toggleLanguage()">
@@ -660,10 +727,74 @@
         <div class="watermark">Wolves' Den</div>
     </div>
 </div>
+
+<div id="notpixel" class="fade-in" style="display: none;">
+    <div class="card pixel-card">
+        <img src="images/notpixel.png" alt="Not Pixel Logo" class="logo-coin">
+        <h1 class="watermark pixel-text">Not Pixel Premarket Calculator</h1>
+        
+        <div class="input-group">
+            <div class="input-wrapper">
+                <input type="number" 
+                       id="notpixelAmount" 
+                       class="pixel-input"
+                       data-lang-en="Enter average points per account" 
+                       data-lang-id="Masukkan rata-rata poin per akun" 
+                       placeholder="Average points per account">
+            </div>
+            <div class="input-wrapper">
+                <input type="number" 
+                       id="notpixelAccountCount" 
+                       class="pixel-input"
+                       data-lang-en="Enter number of accounts (optional)" 
+                       data-lang-id="Masukkan jumlah akun (opsional)" 
+                       placeholder="Number of accounts (optional)">
+            </div>
+        </div>
+
+        <button onclick="calculateNotPixelPrice()" 
+                class="pixel-button" 
+                data-lang-en="Calculate" 
+                data-lang-id="Hitung">
+            <i class="fas fa-calculator"></i> Calculate
+        </button>
+
+        <div class="price-info">
+            <div class="price-item pixel-price-item">
+                <h3 class="pixel-text">Total Not Pixel</h3>
+                <p id="total-notpixel" class="pixel-text">0</p>
+            </div>
+            <div class="price-item pixel-price-item">
+                <h3 class="pixel-text">Premarket Price</h3>
+                <p id="premarket-price-notpixel" class="pixel-text">$0.063</p>
+            </div>
+            <div class="price-item pixel-price-item">
+                <h3 class="pixel-text">Price 1:1</h3>
+                <p id="total-price-1-notpixel" class="pixel-text">$0.00</p>
+            </div>
+            <div class="price-item pixel-price-item">
+                <h3 class="pixel-text">Price 1:50</h3>
+                <p id="total-price-50-notpixel" class="pixel-text">$0.00</p>
+            </div>
+            <div class="price-item pixel-price-item">
+                <h3 class="pixel-text">Price 1:100</h3>
+                <p id="total-price-100-notpixel" class="pixel-text">$0.00</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="credits card pixel-card">
+        <h3 class="pixel-text">Special Thanks</h3>
+        <p class="pixel-text">Inspired by Tomket Premarket</p>
+        <p class="pixel-text">Price predictions by Om Open</p>
+        <div class="watermark pixel-text">Wolves' Den</div>
+    </div>
+</div>
 </div>
 <script>
     const fixedPremarketPrice = 0.0025;
     const fixedPremarketPriceBlum = 0.0037;
+    const fixedPremarketPriceNotPixel = 0.063;
     let currentLang = 'en';
 
     function calculateTotalPrice() {
@@ -698,6 +829,21 @@
         animateNumber('total-price-50-blum', totalPrice50, true);
         animateNumber('total-price-100-blum', totalPrice100, true);
         animateNumber('total-price-200-blum', totalPrice200, true);
+    }
+
+    function calculateNotPixelPrice() {
+        const notpixelPerAccount = parseFloat(document.getElementById('notpixelAmount').value) || 0;
+        const notpixelAccountCount = parseFloat(document.getElementById('notpixelAccountCount').value) || 1;
+        const totalNotPixel = notpixelPerAccount * notpixelAccountCount;
+
+        const totalPrice1 = totalNotPixel * fixedPremarketPriceNotPixel; // 1:1 price
+        const totalPrice50 = totalPrice1 / 50;  // 1:50 price
+        const totalPrice100 = totalPrice1 / 100; // 1:100 price
+
+        animateNumber('total-notpixel', totalNotPixel);
+        animateNumber('total-price-1-notpixel', totalPrice1, true);
+        animateNumber('total-price-50-notpixel', totalPrice50, true);
+        animateNumber('total-price-100-notpixel', totalPrice100, true);
     }
 
     function animateNumber(elementId, finalNumber, isCurrency = false) {
@@ -810,7 +956,7 @@
         }
 
         function showPage(pageId) {
-            const pages = ['home', 'major', 'blum'];
+            const pages = ['home', 'major', 'blum', 'notpixel'];
             pages.forEach(page => {
                 const element = document.getElementById(page);
                 if (page === pageId) {
