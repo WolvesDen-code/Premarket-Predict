@@ -1076,8 +1076,8 @@
         const notpixelAccountCount = parseFloat(document.getElementById('notpixelAccountCount').value) || 1;
         const totalNotPixel = notpixelPerAccount * notpixelAccountCount;
 
-        const totalPrice1 = totalNotPixel * fixedPremarketPriceNotPixel; // 1:1 price
-        const totalPrice10 = totalPrice1 / 10;  // 1:10 price
+        const totalPrice1 = totalNotPixel * fixedPremarketPriceNotPixel;
+        const totalPrice10 = totalPrice1 / 10;  
 
         animateNumber('total-notpixel', totalNotPixel);
         animateNumber('total-price-1-notpixel', totalPrice1, true);
