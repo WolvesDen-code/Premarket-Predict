@@ -976,12 +976,8 @@
                 <p id="total-price-1-notpixel" class="pixel-text">$0.00</p>
             </div>
             <div class="price-item pixel-price-item">
-                <h3 class="pixel-text">Price 1:50</h3>
-                <p id="total-price-50-notpixel" class="pixel-text">$0.00</p>
-            </div>
-            <div class="price-item pixel-price-item">
-                <h3 class="pixel-text">Price 1:100</h3>
-                <p id="total-price-100-notpixel" class="pixel-text">$0.00</p>
+                <h3 class="pixel-text">Price 1:10</h3>
+                <p id="total-price-10-notpixel" class="pixel-text">$0.00</p>
             </div>
         </div>
     </div>
@@ -1070,13 +1066,11 @@
         const totalNotPixel = notpixelPerAccount * notpixelAccountCount;
 
         const totalPrice1 = totalNotPixel * fixedPremarketPriceNotPixel; // 1:1 price
-        const totalPrice50 = totalPrice1 / 50;  // 1:50 price
-        const totalPrice100 = totalPrice1 / 100; // 1:100 price
+        const totalPrice50 = totalPrice1 / 10;  // 1:10 price
 
         animateNumber('total-notpixel', totalNotPixel);
         animateNumber('total-price-1-notpixel', totalPrice1, true);
-        animateNumber('total-price-50-notpixel', totalPrice50, true);
-        animateNumber('total-price-100-notpixel', totalPrice100, true);
+        animateNumber('total-price-10-notpixel', totalPrice10, true);
     }
 
     function animateNumber(elementId, finalNumber, isCurrency = false) {
