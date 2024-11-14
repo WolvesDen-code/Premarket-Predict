@@ -453,7 +453,7 @@
             z-index: 10000;
         }
 		
-		.landing-page {
+	.landing-page {
             position: fixed;
             top: 0;
             left: 0;
@@ -528,6 +528,10 @@
             letter-spacing: 0.2em;
             text-align: center;
             margin: 1rem 0;
+	    white-space: nowrap; 
+            width: 100%;
+            padding: 0 1rem;
+            box-sizing: border-box;
         }
 
         .landing-subtitle {
@@ -653,9 +657,16 @@
                 font-size: 0.9rem;
                 padding: 0.5rem;
             }
+
+	    .landing-title {
+                font-size: clamp(1.8rem, 6vw, 2.5rem);
+                letter-spacing: 0.15em; 
+            }
 			
-			.landing-content {
+	    .landing-content {
                 padding: 1rem;
+                width: 100%;
+                box-sizing: border-box;
             }
             
             .glowing-ring {
@@ -670,7 +681,7 @@
                 max-width: 100%;     
             }
 			
-			.enter-button {
+	    .enter-button {
                 padding: 0.8rem 2rem;
                 font-size: 1rem;
                 max-width: 250px;
