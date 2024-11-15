@@ -863,19 +863,19 @@
             </div>
             <div class="price-item">
                 <h3>Premarket Price</h3>
-                <p id="premarket-price">$0.0037</p>
+                <p id="premarket-price">$0.0075</p>
             </div>
             <div class="price-item">
                 <h3>Price 1:10</h3>
                 <p id="total-price-10">$0.00</p>
             </div>
             <div class="price-item">
-                <h3>Price 1:50</h3>
-                <p id="total-price-50">$0.00</p>
-            </div>
-            <div class="price-item">
                 <h3>Price 1:100</h3>
                 <p id="total-price-100">$0.00</p>
+            </div>
+            <div class="price-item">
+                <h3>Price 1:1000</h3>
+                <p id="total-price-1000">$0.00</p>
             </div>
         </div>
     </div>
@@ -883,7 +883,7 @@
     <div class="credits card">
         <h3>Special Thanks</h3>
         <p>Inspired by Tomket Lovers' innovative premarket predict platform</p>
-        <p>Premarket price prediction and CV ratios (1:10, 1:50, 1:100) by Om Open</p>
+        <p>Premarket price prediction and CV ratios (1:10, 1:100, 1:1000) by Om Open</p>
         <div class="watermark">Wolves' Den</div>
     </div>
 </div>
@@ -1002,7 +1002,7 @@
 </div>
 </div>
 <script>
-    const fixedPremarketPrice = 0.0037;
+    const fixedPremarketPrice = 0.0075;
     const fixedPremarketPriceBlum = 0.0012;
     const fixedPremarketPriceNotPixel = 0.0007;
     let currentLang = 'en';
@@ -1044,13 +1044,13 @@
 
         const totalPrice1 = totalMajor * fixedPremarketPrice;
         const totalPrice10 = totalPrice1 / 10;
-        const totalPrice50 = totalPrice1 / 50;
         const totalPrice100 = totalPrice1 / 100;
+        const totalPrice1000 = totalPrice1 / 1000;
 
         animateNumber('total-major', totalMajor);
         animateNumber('total-price-10', totalPrice10, true);
-        animateNumber('total-price-50', totalPrice50, true);
         animateNumber('total-price-100', totalPrice100, true);
+        animateNumber('total-price-1000', totalPrice1000, true);
     }
 
     function calculateBlumPrice() {
