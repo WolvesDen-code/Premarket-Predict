@@ -1041,18 +1041,18 @@
         const majorPerAccount = parseFloat(document.getElementById('majorAmount').value) || 0;
         const accountCount = parseFloat(document.getElementById('accountCount').value) || 1;
         const totalMajor = majorPerAccount * accountCount;
-
         const totalPrice1 = totalMajor * fixedPremarketPrice;
         const totalPrice10 = totalPrice1 / 10;
         const totalPrice100 = totalPrice1 / 100;
         const totalPrice100000 = totalPrice1 / 100000;
-
-        animateNumber('total-major', totalMajor);
-        animateNumber('total-price-10', totalPrice10, true);
-        animateNumber('total-price-100', totalPrice100, true);
-        animateNumber('total-price-100000', totalPrice100000, true);
+    
+        document.getElementById('total-major').textContent = totalMajor.toLocaleString();
+        document.getElementById('premarket-price').textContent = '$' + fixedPremarketPrice.toFixed(2);
+        document.getElementById('total-price-10').textContent = '$' + totalPrice10.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        document.getElementById('total-price-100').textContent = '$' + totalPrice100.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        document.getElementById('total-price-100000').textContent = '$' + totalPrice100000.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
     }
-
+	
     function calculateBlumPrice() {
         const blumPerAccount = parseFloat(document.getElementById('blumAmount').value) || 0;
         const blumAccountCount = parseFloat(document.getElementById('blumAccountCount').value) || 1;
