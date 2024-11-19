@@ -1042,10 +1042,10 @@
         const accountCount = parseFloat(document.getElementById('accountCount').value) || 1;
         const totalMajor = majorPerAccount * accountCount;
 
-        let totalPrice1 = parseFloat((totalMajor * fixedPremarketPrice).toFixed(8));
-        let totalPrice10 = parseFloat((totalPrice1 / 10).toFixed(8));
-        let totalPrice100 = parseFloat((totalPrice1 / 100).toFixed(8));
-        let totalPrice100000 = parseFloat((totalPrice1 / 100000).toFixed(8));
+        const totalPrice1 = totalMajor * fixedPremarketPrice;
+        const totalPrice10 = totalPrice1 / 10;
+        const totalPrice100 = totalPrice1 / 100;
+        const totalPrice100000 = totalPrice1 / 100000;
 
         animateNumber('total-major', totalMajor);
         animateNumber('total-price-10', totalPrice10, true);
@@ -1101,13 +1101,7 @@
             const currentNumber = startNumber + (stepSize * currentStep);
             
             if (isCurrency) {
-                if (currentNumber < 0.00001) {
-                    element.innerText = `$${currentNumber.toFixed(8)}`;
-                } else if (currentNumber < 0.01) {
-                    element.innerText = `$${currentNumber.toFixed(6)}`;
-                } else {
-                    element.innerText = `$${currentNumber.toFixed(2)}`;
-                }
+                element.innerText = `$${currentNumber.toFixed(2)}`;
             } else {
                 element.innerText = currentNumber.toLocaleString();
             }
@@ -1115,13 +1109,7 @@
             if (currentStep >= steps) {
                 clearInterval(interval);
                 if (isCurrency) {
-                    if (finalNumber < 0.00001) {
-                        element.innerText = `$${finalNumber.toFixed(8)}`;
-                    } else if (finalNumber < 0.01) {
-                        element.innerText = `$${finalNumber.toFixed(6)}`;
-                    } else {
-                        element.innerText = `$${finalNumber.toFixed(2)}`;
-                    }
+                    element.innerText = `$${finalNumber.toFixed(2)}`;
                 } else {
                     element.innerText = finalNumber.toLocaleString();
                 }
@@ -1253,23 +1241,6 @@
         window.addEventListener('hashchange', () => {
             const pageId = window.location.hash.substring(1) || 'home';
             showPage(pageId);
-        });
-
-        function validateInput(input) {
-            input.value = input.value.replace(/[^\d.]/g, '');
-            if ((input.value.match(/\./g) || []).length > 1) {
-                input.value = input.value.replace(/\.+$/, '');
-            }
-        }
-
-        document.getElementById('majorAmount')?.addEventListener('input', function(e) {
-            validateInput(this);
-            calculateTotalPrice();
-        });
-
-        document.getElementById('accountCount')?.addEventListener('input', function(e) {
-            validateInput(this);
-            calculateTotalPrice();
         });
     </script>
 </body>
